@@ -18,7 +18,7 @@ public class PanickyAdminCommands implements CommandExecutor{
 	
 	private List<String> commands = main.getConfig().getStringList("Commands");
 	
-	String projectlink = "";
+	//String projectlink = "";
 	
 	public boolean onCommand(CommandSender s, Command cmd, String alias, String[] args){
 		
@@ -35,7 +35,7 @@ public class PanickyAdminCommands implements CommandExecutor{
 					s.sendMessage(ChatColor.AQUA + "   /panic " + ChatColor.GREEN + "->" + ChatColor.GRAY + " Executes all commands");
 					s.sendMessage(ChatColor.AQUA + "   /panickyadmin info " + ChatColor.GREEN + "->" + ChatColor.GRAY + " Shows Info");
 					s.sendMessage(ChatColor.AQUA + "   /panickyadmin reload " + ChatColor.GREEN + "->" + ChatColor.GRAY + " Reloads the Config");
-					//s.sendMessage(ChatColor.AQUA + "   /panickyadmin list " + ChatColor.GREEN + "->" + ChatColor.GRAY + " Lists all commands");
+					s.sendMessage(ChatColor.AQUA + "   /panickyadmin list " + ChatColor.GREEN + "->" + ChatColor.GRAY + " Lists all commands");
 					s.sendMessage(ChatColor.RED + "         --=-=-=-=-=-=--");
 					s.sendMessage("");
 				}
@@ -43,8 +43,9 @@ public class PanickyAdminCommands implements CommandExecutor{
 				else if (args[0].equalsIgnoreCase("info")){
 					s.sendMessage(ChatColor.DARK_GREEN + "     --=-=-=-=-=-=-=-=-=--");
 					s.sendMessage(ChatColor.GOLD + "        PanickyAdmin " + ChatColor.GRAY + "v" + ver);
-					s.sendMessage(ChatColor.RED + "    Project: " + ChatColor.ITALIC + projectlink);
-					s.sendMessage(ChatColor.RED + "    SourceCode: " + ChatColor.ITALIC + "https://github.com/SpaicyGaming/PanickyAdmin");
+					s.sendMessage(ChatColor.GOLD + "      Author: " + ChatColor.AQUA + "SpaicyGaming");
+					//s.sendMessage(ChatColor.RED + "   Project: " + ChatColor.ITALIC + projectlink);
+					s.sendMessage(ChatColor.RED + "   SourceCode: " + ChatColor.ITALIC + "https://github.com/SpaicyGaming/PanickyAdmin");
 					s.sendMessage(ChatColor.DARK_GREEN + "       --=-=-=-=-=-=-=--");
 					s.sendMessage("");
 				}
@@ -53,13 +54,21 @@ public class PanickyAdminCommands implements CommandExecutor{
 					if (s.hasPermission("panickyadmin.reload")){
 						main.reloadConfig();
 						s.sendMessage(prefix + ChatColor.RED + "Config Reloaded.");
-						main.getLogger().info("Config Reloaded.");
 					}
 					else {
 						s.sendMessage(noperms);
 					}
 				}
+				//LIST
+				else if (args[0].equalsIgnoreCase("list")){
+					if (!s.hasPermission("panickyadmin.list")){
+						s.sendMessage(noperms);
+						return true;
+					}
+					displayCommands(s);
+				}
 				
+				//ELSE
 				else{
 					s.sendMessage(unkncmd);
 				}
@@ -68,11 +77,9 @@ public class PanickyAdminCommands implements CommandExecutor{
 			else{
 				s.sendMessage(unkncmd);
 			}
-			
 		}
 		
 		if (alias.equalsIgnoreCase("panic")){
-			//execute all commands
 			if (!s.hasPermission("panickyadmin.panic")){
 				s.sendMessage(noperms);
 				return true;
@@ -81,17 +88,24 @@ public class PanickyAdminCommands implements CommandExecutor{
 			s.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Messages.panic")));
 			
 		}
-		
 		return false;
 	}
 	
 	private void onPanic(CommandSender s){
 		for (String cmd : commands){
 			main.getServer().dispatchCommand(s, cmd);
-			s.sendMessage("un comando eseguito");
 		}
-		s.sendMessage("Panic mode attivata");
-		
+	}
+	
+	private void displayCommands(CommandSender s){
+		s.sendMessage(ChatColor.RED + "  --=" + ChatColor.GOLD  + " PanickyAdmin " + ChatColor.GRAY + "List" + ChatColor.RED + " =--");
+		int index = 1;
+		for (String cmd : commands){
+			s.sendMessage(ChatColor.GRAY + " " + index + ")" + ChatColor.AQUA + " " + cmd);
+			index++;
+		}
+		s.sendMessage(ChatColor.RED + "      --=-=-=-=-=-=--");
+
 	}
 
 }

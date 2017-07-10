@@ -9,12 +9,9 @@ Messages:
   unknwCmd: '&cUnknown command, use /panickyadmin help.'
   panic: '&c&lPanic mode activated!'
 Commands:
-  - test
-  - test2
-  - night
-  - storm
+  - whitelist on
+  #- stop
 
 
 ####DO NOT TOUCH###
 ConfigVersion: 1.0
-UpdateChecker: true
