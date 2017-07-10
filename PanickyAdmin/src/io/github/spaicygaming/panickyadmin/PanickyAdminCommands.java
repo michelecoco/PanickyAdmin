@@ -18,8 +18,6 @@ public class PanickyAdminCommands implements CommandExecutor{
 	
 	private List<String> commands = main.getConfig().getStringList("Commands");
 	
-	//String projectlink = "";
-	
 	public boolean onCommand(CommandSender s, Command cmd, String alias, String[] args){
 		
 		if (alias.equalsIgnoreCase("panickyadmin")){
@@ -44,7 +42,7 @@ public class PanickyAdminCommands implements CommandExecutor{
 					s.sendMessage(ChatColor.DARK_GREEN + "     --=-=-=-=-=-=-=-=-=--");
 					s.sendMessage(ChatColor.GOLD + "        PanickyAdmin " + ChatColor.GRAY + "v" + ver);
 					s.sendMessage(ChatColor.GOLD + "      Author: " + ChatColor.AQUA + "SpaicyGaming");
-					//s.sendMessage(ChatColor.RED + "   Project: " + ChatColor.ITALIC + projectlink);
+					s.sendMessage(ChatColor.RED + "   Project: " + ChatColor.ITALIC + main.getProject());
 					s.sendMessage(ChatColor.RED + "   SourceCode: " + ChatColor.ITALIC + "https://github.com/SpaicyGaming/PanickyAdmin");
 					s.sendMessage(ChatColor.DARK_GREEN + "       --=-=-=-=-=-=-=--");
 					s.sendMessage("");
