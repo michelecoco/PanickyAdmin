@@ -1,0 +1,12 @@
+main: io.github.spaicygaming.panickyadmin.PanickyAdmin
+
+name: PanickyAdmin
+author: SpaicyGaming
+website: https://github.com/SpaicyGaming/PanickyAdmin/
+version: 1.0
+
+commands:
+   panickyadmin:
+     description: Main command.
+   panic:
+     description: Executes all commands.

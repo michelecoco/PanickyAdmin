@@ -1,0 +1,20 @@
+##################################
+#      PanickyAdmin plugin       #
+#               by               #
+#          SpaicyGaming          #
+##################################
+Messages:
+  Prefix: '&8[&bPanickyAdmin&8]'
+  noPerms: '&cSorry, you don''t have enought permissions.'
+  unknwCmd: '&cUnknown command, use /panickyadmin help.'
+  panic: '&c&lPanic mode activated!'
+Commands:
+  - test
+  - test2
+  - night
+  - storm
+
+
+####DO NOT TOUCH###
+ConfigVersion: 1.0
+UpdateChecker: true
