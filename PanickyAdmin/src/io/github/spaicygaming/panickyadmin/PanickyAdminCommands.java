@@ -1,7 +1,5 @@
 package io.github.spaicygaming.panickyadmin;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,8 +13,6 @@ public class PanickyAdminCommands implements CommandExecutor{
 	private String unkncmd = prefix + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Messages.unknwCmd"));
 	private String noperms = prefix + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("Messages.noPerms"));
 	private String ver = main.getDescription().getVersion();
-	
-	private List<String> commands = main.getConfig().getStringList("Commands");
 	
 	public boolean onCommand(CommandSender s, Command cmd, String alias, String[] args){
 		
@@ -51,6 +47,7 @@ public class PanickyAdminCommands implements CommandExecutor{
 				else if (args[0].equalsIgnoreCase("reload")){
 					if (s.hasPermission("panickyadmin.reload")){
 						main.reloadConfig();
+						main.refreshList();
 						s.sendMessage(prefix + ChatColor.RED + "Config Reloaded.");
 					}
 					else {
@@ -90,7 +87,7 @@ public class PanickyAdminCommands implements CommandExecutor{
 	}
 	
 	private void onPanic(CommandSender s){
-		for (String cmd : commands){
+		for (String cmd : main.getCommands()){
 			main.getServer().dispatchCommand(s, cmd);
 		}
 	}
@@ -98,7 +95,7 @@ public class PanickyAdminCommands implements CommandExecutor{
 	private void displayCommands(CommandSender s){
 		s.sendMessage(ChatColor.RED + "  --=" + ChatColor.GOLD  + " PanickyAdmin " + ChatColor.GRAY + "List" + ChatColor.RED + " =--");
 		int index = 1;
-		for (String cmd : commands){
+		for (String cmd : main.getCommands()){
 			s.sendMessage(ChatColor.GRAY + " " + index + ")" + ChatColor.AQUA + " " + cmd);
 			index++;
 		}

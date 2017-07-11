@@ -2,7 +2,7 @@ main: io.github.spaicygaming.panickyadmin.PanickyAdmin
 
 name: PanickyAdmin
 author: SpaicyGaming
-website: https://github.com/SpaicyGaming/PanickyAdmin/
+website: https://www.spigotmc.org/resources/panickyadmin.43625/
 version: 1.1
 
 commands:

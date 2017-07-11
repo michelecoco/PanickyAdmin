@@ -15,4 +15,4 @@ Commands:
 
 ####DO NOT TOUCH###
 ConfigVersion: 1.1
-CheckForUpdates: true
+CheckUpdates: true

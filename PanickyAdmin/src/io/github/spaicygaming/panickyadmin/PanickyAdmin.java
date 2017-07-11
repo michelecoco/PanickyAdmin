@@ -1,21 +1,26 @@
 package io.github.spaicygaming.panickyadmin;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PanickyAdmin extends JavaPlugin implements Listener{
+public class PanickyAdmin extends JavaPlugin{
 	
 	private static PanickyAdmin instance;
+	public static PanickyAdmin getInstance(){
+		return instance;
+	}
 	
-	boolean checkUpdates = getConfig().getBoolean("CheckForUpdates");
+	boolean checkUpdates = getConfig().getBoolean("CheckUpdates");
 	public Object[] updates;
+	
+	private List<String> commands;
 	
 	public void onEnable(){
 		instance = this;
+		refreshList();
+		
 		getLogger().info("PanickyAdmin has been Enabled!");
 		
 		if (!getConfig().getString("ConfigVersion").equals("1.1")) {
@@ -25,11 +30,13 @@ public class PanickyAdmin extends JavaPlugin implements Listener{
 		getCommand("panickyadmin").setExecutor(new PanickyAdminCommands());
 		getCommand("panic").setExecutor(new PanickyAdminCommands());
 		
+		
 		saveDefaultConfig();
 		
 		updates = UpdateChecker.getLastUpdate();
 		
 		if (checkUpdates){
+			getServer().getPluginManager().registerEvents(new PanickyAdminListener(), this);
 			getLogger().info("Checking for updates...");
 			
 			if (updates.length == 2){
@@ -44,33 +51,19 @@ public class PanickyAdmin extends JavaPlugin implements Listener{
 		}	
 	}
 
-	public static PanickyAdmin getInstance(){
-		return instance;
-	}
-	
 	public void onDisable(){
 		getLogger().info("PanickyAdmin has been Disabled!");
 	}
-	
-	/*
-	 * Notify Updates
-	 */
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e){
-		Player p = e.getPlayer();
-		if (p.isOp() || p.hasPermission("panickyadmin.notify") || p.hasPermission("*")){
-			if(updates.length == 2){
-				p.sendMessage(ChatColor.GREEN + Separatori(31));
-				p.sendMessage("§6§l[§cPanickyAdmin§6] New update available:");
-				p.sendMessage("§6Current version: §e" + getDescription().getVersion());
-				p.sendMessage("§6New version: §e" + updates[0]);
-				p.sendMessage("§6What's new: §e" + updates[1]);
-				p.sendMessage(ChatColor.GREEN + Separatori(31));
-			}
-		}
+
+	public List<String> getCommands() {
+		return commands;
 	}
 	
-	private String Separatori(int value){
+	public void refreshList(){
+		commands = getConfig().getStringList("Commands");
+	}
+	
+	String Separatori(int value){
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value; i++){
 			sb.append("=");
@@ -78,8 +71,9 @@ public class PanickyAdmin extends JavaPlugin implements Listener{
 		return sb.toString();
 	}
 	
-	public String getProject(){
-		return "https://www.spigotmc.org/resources/panickyadmin.43625/";
+	String getProject(){
+		return getDescription().getWebsite();
 	}
-	
+
+
 }
