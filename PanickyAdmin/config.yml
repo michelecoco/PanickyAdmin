@@ -8,11 +8,15 @@ Messages:
   noPerms: '&cSorry, you don''t have enought permissions.'
   unknwCmd: '&cUnknown command, use /panickyadmin help.'
   panic: '&c&lPanic mode activated!'
+  unpanic: '&a&lPanic mode disabled'
 Commands:
-  - whitelist on
-  #- stop
-
+  panic:
+    - whitelist on
+    #- stop
+  unpanic:
+    - whitelist off
+    # everything you want
 
 ####DO NOT TOUCH###
-ConfigVersion: 1.1
+ConfigVersion: 1.2
 CheckUpdates: true

@@ -18,13 +18,13 @@ public class PanickyAdminListener implements Listener {
 		Player p = e.getPlayer();
 		if (p.isOp() || p.hasPermission("panickyadmin.notify") || p.hasPermission("*")){
 			if(main.updates.length == 2){
-				p.sendMessage(ChatColor.GREEN + main.Separatori(31));
+				p.sendMessage(ChatColor.GREEN + main.Separatori(31, '*'));
 				p.sendMessage("§6§l[§cPanickyAdmin§6] New update available:");
 				p.sendMessage("§6Current version: §e" + main.getDescription().getVersion());
 				p.sendMessage("§6New version: §e" + main.updates[0]);
 				p.sendMessage("§6What's new: §e" + main.updates[1]);
 				p.sendMessage("§6Download here: §e" + main.getProject());
-				p.sendMessage(ChatColor.GREEN + main.Separatori(31));
+				p.sendMessage(ChatColor.GREEN + main.Separatori(31, '*'));
 			}
 		}
 	}
