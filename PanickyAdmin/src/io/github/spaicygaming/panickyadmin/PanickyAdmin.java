@@ -7,7 +7,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PanickyAdmin extends JavaPlugin{
-	
+
 	private static PanickyAdmin instance;
 	public static PanickyAdmin getInstance(){
 		return instance;
@@ -18,26 +18,39 @@ public class PanickyAdmin extends JavaPlugin{
 	
 	private List<String> paniccmds;
 	private List<String> unpaniccmds;
+	private String cmdsExecutor = null;
 	
 	public void onEnable(){
 		instance = this;
+		
+		saveDefaultConfig();
 		refreshLists();
 		
 		getLogger().info("PanickyAdmin has been Enabled!");
 		
-		if (!getConfig().getString("ConfigVersion").equals("1.2")) {
-			ConsoleCommandSender cs = getServer().getConsoleSender();
+		//Check config version
+		ConsoleCommandSender cs = getServer().getConsoleSender();
+		if (!getConfig().getString("ConfigVersion").equals("1.3")) {
 			cs.sendMessage(Separatori(50, '='));
 	        cs.sendMessage("[PanickyAdmin] " + ChatColor.RED + "OUTDATED CONFIG FILE DETECTED, PLEASE DELETE THE OLD ONE!");
 	        cs.sendMessage(Separatori(50, '='));
 	    }
 		
+		//Get commands executor
+		String cmdsExecConfig = getConfig().getString("Commands.cmdsExecutor");
+		if (cmdsExecConfig.equalsIgnoreCase("player") || cmdsExecConfig.equalsIgnoreCase("console")){
+			cmdsExecutor = cmdsExecConfig.toUpperCase();
+		}
+		else{
+			cs.sendMessage(Separatori(50, '='));
+	        cs.sendMessage("[PanickyAdmin] " + ChatColor.RED + "ERROR! Invalid commands executor(Commands.cmdsExecutor). Insert 'player' or 'console'!");
+	        cs.sendMessage(Separatori(50, '='));
+	        //cmdsExecutor rimane nullo
+		}
+		
 		getCommand("panickyadmin").setExecutor(new PanickyAdminCommands());
 		getCommand("panic").setExecutor(new PanickyAdminCommands());
 		getCommand("unpanic").setExecutor(new PanickyAdminCommands());
-		
-		
-		saveDefaultConfig();
 		
 		updates = UpdateChecker.getLastUpdate();
 		
@@ -75,6 +88,10 @@ public class PanickyAdmin extends JavaPlugin{
 	 */
 	public List<String> getUnpanicCommands(){
 		return unpaniccmds;
+	}
+	
+	public String getCommandsExecutor(){
+		return cmdsExecutor;
 	}
 	
 	/**

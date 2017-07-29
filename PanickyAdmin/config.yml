@@ -10,6 +10,8 @@ Messages:
   panic: '&c&lPanic mode activated!'
   unpanic: '&a&lPanic mode disabled'
 Commands:
+  # player or console
+  cmdsExecutor: player
   panic:
     - whitelist on
     #- stop
@@ -18,5 +20,5 @@ Commands:
     # everything you want
 
 ####DO NOT TOUCH###
-ConfigVersion: 1.2
+ConfigVersion: 1.3
 CheckUpdates: true

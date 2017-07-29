@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class PanickyAdminCommands implements CommandExecutor{
 	
@@ -123,6 +124,14 @@ public class PanickyAdminCommands implements CommandExecutor{
 	 */
 	private void dispatchAll(CommandSender s, String listValue){
 		List<String> commandslist = null;
+		String mainCmdsExec = main.getCommandsExecutor();
+		String badCmdsExecInput = "[PanickyAdmin] " + ChatColor.RED + "ERROR! Invalid commands executor(Commands.cmdsExecutor). Insert 'player' or 'console'!";
+		
+		if (mainCmdsExec ==  null){
+			main.getServer().getConsoleSender().sendMessage(badCmdsExecInput);
+			s.sendMessage(badCmdsExecInput);
+			return;
+		}
 		
 		if (listValue.equals("panic")){
 			commandslist = main.getPanicCommands();
@@ -135,8 +144,28 @@ public class PanickyAdminCommands implements CommandExecutor{
 			main.getLogger().info(main.Separatori(50, '*'));
 		}
 		
-		for (String cmd : commandslist){
-			main.getServer().dispatchCommand(s, cmd);
+		if (s instanceof Player){
+			if (mainCmdsExec.equals("PLAYER")){
+				for (String cmd : commandslist){
+					main.getServer().dispatchCommand(s, cmd);
+				}
+			}
+			// se mainCmdsExec è console
+			else{
+				for (String cmd : commandslist){
+					main.getServer().dispatchCommand(main.getServer().getConsoleSender(), cmd);
+				}
+			}
+			
+		}
+		else{
+			if (mainCmdsExec.equals("PLAYER"))
+				s.sendMessage("Cannot execute commands from a player. The commands will be executed from the sender.");
+			
+			for (String cmd : commandslist){
+				main.getServer().dispatchCommand(s, cmd);
+			}
+			
 		}
 	}
 	
