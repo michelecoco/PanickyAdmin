@@ -9,10 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PanickyAdmin extends JavaPlugin{
 
 	private static PanickyAdmin instance;
-	public static PanickyAdmin getInstance(){
-		return instance;
-	}
-	
 	boolean checkUpdates = getConfig().getBoolean("CheckUpdates");
 	public Object[] updates;
 	
@@ -30,7 +26,7 @@ public class PanickyAdmin extends JavaPlugin{
 		
 		//Check config version
 		ConsoleCommandSender cs = getServer().getConsoleSender();
-		if (!getConfig().getString("ConfigVersion").equals("1.3")) {
+		if (!getConfig().getString("ConfigVersion").equals("1.4")) {
 			cs.sendMessage(Separatori(50, '='));
 	        cs.sendMessage("[PanickyAdmin] " + ChatColor.RED + "OUTDATED CONFIG FILE DETECTED, PLEASE DELETE THE OLD ONE!");
 	        cs.sendMessage(Separatori(50, '='));
@@ -68,6 +64,10 @@ public class PanickyAdmin extends JavaPlugin{
 				getLogger().info("No new version available." );
 			}
 		}	
+	}
+	
+	public static PanickyAdmin getInstance(){
+		return instance;
 	}
 
 	public void onDisable(){

@@ -124,15 +124,18 @@ public class PanickyAdminCommands implements CommandExecutor{
 	 */
 	private void dispatchAll(CommandSender s, String listValue){
 		List<String> commandslist = null;
-		String mainCmdsExec = main.getCommandsExecutor();
+		String mainCmdsExecutor = main.getCommandsExecutor();
 		String badCmdsExecInput = "[PanickyAdmin] " + ChatColor.RED + "ERROR! Invalid commands executor(Commands.cmdsExecutor). Insert 'player' or 'console'!";
 		
-		if (mainCmdsExec ==  null){
+		if (mainCmdsExecutor ==  null){
 			main.getServer().getConsoleSender().sendMessage(badCmdsExecInput);
 			s.sendMessage(badCmdsExecInput);
 			return;
 		}
 		
+		/*
+		 * Copia la lista
+		 */
 		if (listValue.equals("panic")){
 			commandslist = main.getPanicCommands();
 		}
@@ -144,14 +147,16 @@ public class PanickyAdminCommands implements CommandExecutor{
 			main.getLogger().info(main.Separatori(50, '*'));
 		}
 		
+		String cannotReplace = "Cannot replace {sender}.";
 		if (s instanceof Player){
-			if (mainCmdsExec.equals("PLAYER")){
+			if (mainCmdsExecutor.equals("PLAYER")){
 				for (String cmd : commandslist){
-					main.getServer().dispatchCommand(s, cmd);
+					main.getServer().dispatchCommand(s, cmd.replace("{sender}", s.getName()));
 				}
 			}
-			// se mainCmdsExec è console
+			// if mainCmdsExec is "console" and the command sender is a player
 			else{
+				s.sendMessage(cannotReplace);
 				for (String cmd : commandslist){
 					main.getServer().dispatchCommand(main.getServer().getConsoleSender(), cmd);
 				}
@@ -159,8 +164,10 @@ public class PanickyAdminCommands implements CommandExecutor{
 			
 		}
 		else{
-			if (mainCmdsExec.equals("PLAYER"))
-				s.sendMessage("Cannot execute commands from a player. The commands will be executed from the sender.");
+			if (mainCmdsExecutor.equals("PLAYER")){
+				s.sendMessage("Cannot execute commands from a player. The commands will be executed from the command sender.");
+			}
+			s.sendMessage(cannotReplace);
 			
 			for (String cmd : commandslist){
 				main.getServer().dispatchCommand(s, cmd);

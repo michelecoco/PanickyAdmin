@@ -12,13 +12,17 @@ Messages:
 Commands:
   # player or console
   cmdsExecutor: player
+  # {sender} will be replaced by the CommandSender's name
+  # (only if the command sender is a player)
   panic:
+    - whitelist add {sender}
     - whitelist on
     #- stop
   unpanic:
     - whitelist off
-    # everything you want
+    - whitelist remove {sender}
+    # whatever you want
 
 ####DO NOT TOUCH###
-ConfigVersion: 1.3
+ConfigVersion: 1.4
 CheckUpdates: true
